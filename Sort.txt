@@ -1,0 +1,604 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Node
+{
+  public:
+  int data;
+  Node *next;
+};
+Node *first,*last;
+void create(int a[],int n)
+{
+  Node *t;
+  first=new Node();
+  first->data=a[0];
+  first->next=NULL;
+  last = first;
+  for(int i=1;i<n;i++)
+  {
+    t=new Node();
+    t->data=a[i];
+    t->next=NULL;
+    last->next=t;
+    last = t;
+  }
+}
+void display(Node *p)
+{
+  while(p!=NULL)
+  {
+    cout<<p->data<<" ";
+    p=p->next;
+  }
+}
+void Rdisplay(Node *p)
+{
+  if(p!=NULL)
+  {
+    cout<<p->data<<" ";
+    Rdisplay(p->next);
+  }
+}
+void revdisplay(Node *p)
+{
+  if(p!=NULL)
+  {
+    revdisplay(p->next);
+    cout<<p->data<<" ";
+  }
+}
+int count(Node *p)
+{
+  int a=0;
+  while(p)
+  { 
+    a=a+1;
+    p=p->next;
+  }
+  return a;
+}
+int Rcount(Node *p)
+{
+  if(p!=NULL)
+  { 
+    return Rcount(p->next)+1;
+  }
+  else return 0;
+}
+int add(Node *p)
+{
+  int a=0;
+  while(p)
+  { 
+    a=a+p->data;
+    p=p->next;
+  }
+  return a;
+}
+int Radd(Node *p)
+{
+  if(p!=NULL)
+  { 
+    return Radd(p->next)+p->data;
+  }
+  else return 0;
+}
+int max(Node *p)
+{
+  int x=-INT_MIN;
+  while(p)
+  {
+  if(p->data>x)
+  {
+    x=p->data;
+  }
+      p=p->next;
+  }
+  return x;
+}
+int min(Node *p)
+{
+  int x=INT_MAX;
+  while(p)
+  {
+  if(p->data<x)
+  {
+    x=p->data;
+  }
+  p=p->next;
+  }
+  return x;
+}
+int Rmax(Node*p)
+{
+  int x=0;
+  if(p==NULL)
+  {
+    return INT_MIN;
+  }
+  else
+  {
+    x=Rmax(p->next);
+    if(x>p->data)
+    {
+      return x; 
+    }
+    else return p->data;
+  }
+}
+int Rmin(Node*p)
+{
+  int x=0;
+  if(p==NULL)
+  {
+    return INT_MAX;
+  }
+  else
+  {
+    x=Rmin(p->next);
+    if(x<p->data)
+    {
+      return x; 
+    }
+    else return p->data;
+  }
+}
+Node *Search(Node*p,int k)
+{
+  if(p==NULL)
+  {
+    return NULL;
+  }
+  else
+  {
+    while(p)
+    {
+      if(p->data==k)
+      {
+        return p;
+      }
+      p=p->next;
+    }
+  }
+}
+Node *RSearch(Node *p,int k)
+{
+  if(p==NULL) return NULL;
+  else
+  {
+    if(p->data==k)
+    {
+      return p;
+    }
+    return RSearch(p->next,k);
+  }
+}
+//Node *ISearch(Node*p,int k)
+//{
+  //if(p==NULL) return NULL;
+  //else
+  //{
+    //Node *q = NULL;
+    //while(p)
+    //{
+      //if(p->data==k)
+      //{
+        //q->next=p->next;
+        //p->next=first;
+        //first=p;
+        //return p;
+      //}
+      //q=p;
+      //p=p->next;
+    //}
+  //}
+//}
+void insert(Node *p,int pos,int data)
+{
+  Node *q,*t;
+  q=p;
+  if(pos<0 || pos>count(q))
+  return;
+  t=new Node();
+  t->data=data;
+  if(pos==0)
+  {
+    t->next=q;
+    q=t;
+  }
+  else
+  {
+    for(int i=0;i<pos-1;i++)
+    {
+      q=q->next;
+    }
+    t->next=q->next;
+    q->next=t;
+  }
+}
+void isl(Node *p,int x)
+{
+  Node *q=NULL;
+  while(p && p->data<x)
+  {
+    q=p;
+    p=p->next;
+  }
+  Node *t=new Node();
+  t->data=x;
+  t->next=q->next;
+  q->next=t;
+}
+int del(Node *p,int pos)
+{
+  Node *q,*t;
+  int x;
+  if(pos==1)
+  {
+    q=p;
+    t=q;
+    q=q->next;
+    x=t->data;
+    delete(t);
+  }
+  else
+  {
+    q=p;
+    t=NULL;
+    for(int i=0;i<pos-1;i++)
+    {
+      t=q;
+      q=q->next;
+    }
+    t->next=q->next;
+    x=q->data;
+    delete(q);
+  }
+  return x;
+}
+int main()
+{
+  int A[5]={1,2,3,4,5};
+  create(A,5);
+  display(first);
+  cout<<endl;
+  Rdisplay(first);
+  cout<<endl;
+  revdisplay(first);
+  cout<<endl;
+  cout<<count(first);
+  cout<<endl;
+  cout<<Rcount(first);
+  cout<<endl;
+  cout<<add(first);
+  cout<<endl;
+  cout<<max(first);
+  cout<<endl;
+  cout<<min(first);
+  cout<<endl;
+  cout<<Rmax(first);
+  cout<<endl;
+  cout<<Rmin(first);
+  cout<<endl;
+  cout<<Radd(first)<<endl;
+  Node *t=Search(first,3);
+  Node *l=RSearch(first,2);
+  cout<<t->data<<" "<<l->data<<endl;#include<bits/stdc++.h>
+using namespace std;
+class Node
+{
+  public:
+  int data;
+  Node *next;
+};
+Node *first,*last;
+void create(int a[],int n)
+{
+  Node *t;
+  first=new Node();
+  first->data=a[0];
+  first->next=NULL;
+  last = first;
+  for(int i=1;i<n;i++)
+  {
+    t=new Node();
+    t->data=a[i];
+    t->next=NULL;
+    last->next=t;
+    last = t;
+  }
+}
+void display(Node *p)
+{
+  while(p!=NULL)
+  {
+    cout<<p->data<<" ";
+    p=p->next;
+  }
+}
+void Rdisplay(Node *p)
+{
+  if(p!=NULL)
+  {
+    cout<<p->data<<" ";
+    Rdisplay(p->next);
+  }
+}
+void revdisplay(Node *p)
+{
+  if(p!=NULL)
+  {
+    revdisplay(p->next);
+    cout<<p->data<<" ";
+  }
+}
+int count(Node *p)
+{
+  int a=0;
+  while(p)
+  { 
+    a=a+1;
+    p=p->next;
+  }
+  return a;
+}
+int Rcount(Node *p)
+{
+  if(p!=NULL)
+  { 
+    return Rcount(p->next)+1;
+  }
+  else return 0;
+}
+int add(Node *p)
+{
+  int a=0;
+  while(p)
+  { 
+    a=a+p->data;
+    p=p->next;
+  }
+  return a;
+}
+int Radd(Node *p)
+{
+  if(p!=NULL)
+  { 
+    return Radd(p->next)+p->data;
+  }
+  else return 0;
+}
+int max(Node *p)
+{
+  int x=-INT_MIN;
+  while(p)
+  {
+  if(p->data>x)
+  {
+    x=p->data;
+  }
+      p=p->next;
+  }
+  return x;
+}
+int min(Node *p)
+{
+  int x=INT_MAX;
+  while(p)
+  {
+  if(p->data<x)
+  {
+    x=p->data;
+  }
+  p=p->next;
+  }
+  return x;
+}
+int Rmax(Node*p)
+{
+  int x=0;
+  if(p==NULL)
+  {
+    return INT_MIN;
+  }
+  else
+  {
+    x=Rmax(p->next);
+    if(x>p->data)
+    {
+      return x; 
+    }
+    else return p->data;
+  }
+}
+int Rmin(Node*p)
+{
+  int x=0;
+  if(p==NULL)
+  {
+    return INT_MAX;
+  }
+  else
+  {
+    x=Rmin(p->next);
+    if(x<p->data)
+    {
+      return x; 
+    }
+    else return p->data;
+  }
+}
+Node *Search(Node*p,int k)
+{
+  if(p==NULL)
+  {
+    return NULL;
+  }
+  else
+  {
+    while(p)
+    {
+      if(p->data==k)
+      {
+        return p;
+      }
+      p=p->next;
+    }
+  }
+}
+Node *RSearch(Node *p,int k)
+{
+  if(p==NULL) return NULL;
+  else
+  {
+    if(p->data==k)
+    {
+      return p;
+    }
+    return RSearch(p->next,k);
+  }
+}
+//Node *ISearch(Node*p,int k)
+//{
+  //if(p==NULL) return NULL;
+  //else
+  //{
+    //Node *q = NULL;
+    //while(p)
+    //{
+      //if(p->data==k)
+      //{
+        //q->next=p->next;
+        //p->next=first;
+        //first=p;
+        //return p;
+      //}
+      //q=p;
+      //p=p->next;
+    //}
+  //}
+//}
+void insert(Node *p,int pos,int data)
+{
+  Node *q,*t;
+  q=p;
+  if(pos<0 || pos>count(q))
+  return;
+  t=new Node();
+  t->data=data;
+  if(pos==0)
+  {
+    t->next=q;
+    q=t;
+  }
+  else
+  {
+    for(int i=0;i<pos-1;i++)
+    {
+      q=q->next;
+    }
+    t->next=q->next;
+    q->next=t;
+  }
+}
+void isl(Node *p,int x)
+{
+  Node *q=NULL;
+  while(p && p->data<x)
+  {
+    q=p;
+    p=p->next;
+  }
+  Node *t=new Node();
+  t->data=x;
+  t->next=q->next;
+  q->next=t;
+}
+int del(Node *p,int pos)
+{
+  Node *q,*t;
+  int x;
+  if(pos==1)
+  {
+    q=p;
+    t=q;
+    q=q->next;
+    x=t->data;
+    delete(t);
+  }
+  else
+  {
+    q=p;
+    t=NULL;
+    for(int i=0;i<pos-1;i++)
+    {
+      t=q;
+      q=q->next;
+    }
+    t->next=q->next;
+    x=q->data;
+    delete(q);
+  }
+  return x;
+}
+int sorted(Node *p)
+{
+  int x=INT_MIN;
+  while(p)
+  {
+    if(p->data<x)
+    {
+      return 0;
+    }
+    x=p->data;
+    p=p->next;
+  }
+  return 1;
+}
+int main()
+{
+  int A[5]={1,2,3,4,5};
+  create(A,5);
+  display(first);
+  cout<<endl;
+  Rdisplay(first);
+  cout<<endl;
+  revdisplay(first);
+  cout<<endl;
+  cout<<count(first);
+  cout<<endl;
+  cout<<Rcount(first);
+  cout<<endl;
+  cout<<add(first);
+  cout<<endl;
+  cout<<max(first);
+  cout<<endl;
+  cout<<min(first);
+  cout<<endl;
+  cout<<Rmax(first);
+  cout<<endl;
+  cout<<Rmin(first);
+  cout<<endl;
+  cout<<Radd(first)<<endl;
+  Node *t=Search(first,3);
+  Node *l=RSearch(first,2);
+  cout<<t->data<<" "<<l->data<<endl;
+  insert(first,5,7);
+  display(first);
+  cout<<endl;
+  isl(first,6);
+  display(first);
+  cout<<endl;
+  del(first,6);
+  display(first);
+  cout<<endl<<sorted(first);
+}
+  insert(first,5,7);
+  display(first);
+  cout<<endl;
+  isl(first,6);
+  display(first);
+  cout<<endl;
+  del(first,6);
+  display(first);
+}
